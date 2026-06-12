@@ -1,0 +1,24 @@
+@startuml
+title Sequenza OOP - Backup automatico
+
+actor Tempo
+
+box "Interfaccia"
+participant "VistaBackup" as VistaBackup
+end box
+
+box "Logica applicativa"
+participant "ControlloreBackup" as ControlloreBackup
+participant "ServizioBackup" as ServizioBackup
+database "RepositoryDatiSistema" as RepositoryDatiSistema
+participant "ServizioLog" as ServizioLog
+end box
+
+Tempo -> VistaBackup : avviaBackup()
+VistaBackup -> ControlloreBackup : avviaBackup()
+ControlloreBackup -> ServizioBackup : eseguiBackup()
+ServizioBackup -> RepositoryDatiSistema : estraiDati()
+RepositoryDatiSistema --> ServizioBackup : datiBackup
+ServizioBackup -> ServizioLog : registraEvento("BACKUP_COMPLETATO", messaggio)
+ServizioBackup --> ControlloreBackup : risultatoBackup
+@enduml

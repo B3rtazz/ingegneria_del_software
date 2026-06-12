@@ -1,0 +1,103 @@
+@startuml
+title Package di Analisi Completo - Smart Home System
+
+skinparam linetype ortho
+skinparam backgroundColor #FEFEF8
+skinparam defaultFontSize 11
+
+package "Analisi Smart Home" as PanalisiSH <<Analysis>> {
+  package "Attività" as PAttivita <<Dominio>> {
+    class Utente <<Entity>> {
+      + id: int
+      + email: String
+      + autentica(password: String): Boolean
+    }
+
+    class Amministratore <<Entity>> {
+      + livelloAccesso: int
+      + gestisci_automazione(auto: Automazione): void
+    }
+
+    class Automazione <<Entity>> {
+      + id: int
+      + nome: String
+      + attiva: Boolean
+      + esegui(): Boolean
+    }
+
+    class Regola <<ValueObject>> {
+      + id: int
+      + tipoCondizione: String
+      + valuta_condizione(): Boolean
+    }
+
+    class Evento <<Entity>> {
+      + id: int
+      + timestamp: DateTime
+      + tipo: String
+    }
+
+    class LogEventi <<Entity>> {
+      + id: int
+      + eventi: List<Evento>
+      + aggiungi_evento(evento: Evento): void
+    }
+
+    Utente <|-- Amministratore
+    Automazione "1" o-- "1..*" Regola
+    LogEventi "1" o-- "0..*" Evento
+  }
+
+  package "Servizio" as PServizio <<Service>> {
+    class Dispositivo <<Entity>> {
+      + id: int
+      + nome: String
+      + stato: String
+      + invia_comando(comando: String): Boolean
+    }
+
+    class Stanza <<Entity>> {
+      + id: int
+      + nome: String
+      + piano: int
+      + aggiungi_dispositivo(disp: Dispositivo): void
+    }
+
+    class ServizioDispositivi <<Service>> {
+      + elenca_dispositivi(): List<Dispositivo>
+      + invia_comando(id: int, comando: String): void
+    }
+
+    class ServizioStanze <<Service>> {
+      + elenca_stanze(): List<Stanza>
+      + crea_stanza(nome: String, piano: int): Stanza
+    }
+
+    Stanza "1" o-- "0..*" Dispositivo
+    ServizioDispositivi --> Dispositivo
+    ServizioStanze --> Stanza
+  }
+
+  package "Repository" as PRepository <<DataAccess>> {
+    class RepositoryUtenti <<Repository>> {
+      + trova_per_email(email: String): Utente
+      + salva(utente: Utente): void
+    }
+
+    class RepositoryEventi <<Repository>> {
+      + cerca(filtro: String): List<Evento>
+      + salva(evento: Evento): void
+    }
+
+    class RepositoryDispositivi <<Repository>> {
+      + salva(dispositivo: Dispositivo): void
+      + trova_per_id(id: int): Dispositivo
+    }
+  }
+}
+
+PAttivita ..> PServizio : <<use>>\nUtilizza servizi per\ngestire dispositivi
+PServizio ..> PRepository : <<use>>\nAccede ai dati\nper persistenza
+PAttivita ..> PRepository : <<use>>\nAccede ai dati\nper persistenza
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+title Sequenza OOP - Gestione automazioni (CRUD essenziale)
+
+actor Utente
+actor Amministratore
+
+box "Interfaccia"
+participant "VistaAutomazioni" as VistaAutomazioni
+end box
+
+box "Logica applicativa"
+participant "ControlloreAutomazioni" as ControlloreAutomazioni
+participant "ServizioAutomazioni" as ServizioAutomazioni
+database "RepositoryAutomazioni" as RepositoryAutomazioni
+end box
+
+== Crea automazione ==
+Utente -> VistaAutomazioni : creaRegola(regola)
+VistaAutomazioni -> ControlloreAutomazioni : creaRegola(regola)
+ControlloreAutomazioni -> ServizioAutomazioni : crea(regola)
+ServizioAutomazioni -> RepositoryAutomazioni : salva(regola)
+RepositoryAutomazioni --> ServizioAutomazioni : regolaSalvata
+ServizioAutomazioni --> ControlloreAutomazioni : regolaSalvata
+ControlloreAutomazioni --> VistaAutomazioni : mostraRisultatoOperazione()
+
+@enduml

@@ -1,0 +1,37 @@
+@startuml
+title Sequenza OOP - Accesso dashboard (Utente o Amministratore)
+
+actor Utente
+actor Amministratore
+
+box "Interfaccia"
+participant "VistaLogin" as VistaLogin
+participant "VistaDashboard" as VistaDashboard
+end box
+
+box "Logica applicativa"
+participant "ControlloreAutenticazione" as ControlloreAutenticazione
+participant "ControlloreDashboard" as ControlloreDashboard
+participant "ServizioUtenti" as ServizioUtenti
+database "RepositoryUtenti" as RepositoryUtenti
+participant "ServizioDashboard" as ServizioDashboard
+end box
+
+Utente -> VistaLogin : inserisciCredenziali(email, password)
+Amministratore -> VistaLogin : inserisciCredenziali(email, password)
+VistaLogin -> ControlloreAutenticazione : effettuaLogin(email, password)
+ControlloreAutenticazione -> ServizioUtenti : autentica(email, password)
+ServizioUtenti -> RepositoryUtenti : trovaPerEmail(email)
+RepositoryUtenti --> ServizioUtenti : utente
+
+alt credenziali valide
+  ServizioUtenti --> ControlloreAutenticazione : utenteAutenticato
+  ControlloreAutenticazione -> ControlloreDashboard : apriDashboard(idUtente)
+  ControlloreDashboard -> ServizioDashboard : caricaRiepilogo(idUtente)
+  ServizioDashboard --> ControlloreDashboard : datiDashboard
+  ControlloreDashboard --> VistaDashboard : mostraDashboard(datiDashboard)
+else credenziali non valide
+  ServizioUtenti --> ControlloreAutenticazione : erroreAutenticazione
+  ControlloreAutenticazione --> VistaLogin : mostraErroreLogin()
+end
+@enduml

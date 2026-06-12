@@ -1,0 +1,42 @@
+@startuml
+title Descrizione dettagliata dei requisiti
+left to right direction
+
+package "Gestione Casa" {
+  class "RF1 - Visualizza stanze" as RF1
+  class "RF2 - CRUD stanze" as RF2
+  class "RF3 - Associa dispositivi alle stanze" as RF3
+}
+
+package "Gestione Dispositivi" {
+  class "RF4 - Visualizza dispositivi" as RF4
+  class "RF5 - Controlla dispositivi" as RF5
+  class "RF6 - Aggiorna stato dispositivo" as RF6
+  class "RF7 - Rileva dispositivi offline" as RF7
+}
+
+package "Gestione Automazioni" {
+  class "RF8 - Inserisci automazione" as RF8
+  class "RF9 - Modifica automazione" as RF9
+  class "RF10 - Attiva o disattiva automazione" as RF10
+  class "RF11 - Valuta automazioni" as RF11
+}
+
+package "Gestione Storico" {
+  class "RF12 - Consulta log eventi" as RF12
+  class "RF13 - Filtra log" as RF13
+  class "RF14 - Esporta log" as RF14
+}
+
+package "Gestione Sistema" {
+  class "RF15 - Genera statistiche" as RF15
+  class "RF16 - Backup automatico" as RF16
+  class "RF17 - Gestisci notifiche" as RF17
+}
+
+package "Requisiti non funzionali" {
+  class "RNF1 - Implementazione in Python 3" as RNF1
+  class "RNF2 - Convalida password" as RNF2
+}
+
+@enduml

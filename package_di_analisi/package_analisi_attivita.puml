@@ -1,0 +1,81 @@
+@startuml
+title Package di Analisi: Attività - Smart Home System
+
+package "Gestione Attività" as PktAttivita <<Dominio>> {
+  class Utente {
+    + id: int
+    + nome: String
+    + email: String
+    + passwordHash: String
+    + __init__(id, nome, email, password)
+    + autentica(password: String): Boolean
+    + cambia_password(nuova_password: String): void
+    + get_email(): String
+    + get_id(): int
+  }
+
+  class Amministratore {
+    + livelloAccesso: int
+    + __init__(id, nome, email, password, livello: int)
+    + gestisci_automazione(automazione: Automazione): void
+    + consulta_log(): List<Evento>
+    + crea_utente(utente: Utente): Boolean
+    + elimina_utente(id: int): Boolean
+  }
+
+  class Automazione {
+    + id: int
+    + nome: String
+    + attiva: Boolean
+    + orario: DateTime
+    + regole: List<Regola>
+    + __init__(id, nome, orario: DateTime)
+    + attiva_automazione(): void
+    + disattiva_automazione(): void
+    + aggiungi_regola(regola: Regola): void
+    + rimuovi_regola(id: int): Boolean
+    + esegui(): Boolean
+    + valuta_regole(): List<Regola>
+  }
+
+  class Regola {
+    + id: int
+    + tipoCondizione: String
+    + valoreCondizione: String
+    + azione: String
+    + __init__(id, tipo: String, valore: String, azione: String)
+    + valuta_condizione(): Boolean
+    + esegui_azione(): String
+    + get_tipo_condizione(): String
+  }
+
+  class Evento {
+    + id: int
+    + timestamp: DateTime
+    + tipo: String
+    + descrizione: String
+    + idDispositivo: int
+    + __init__(id, tipo: String, descrizione: String, idDisp: int)
+    + to_string(): String
+    + get_timestamp(): DateTime
+    + get_tipo(): String
+  }
+
+  class LogEventi {
+    + id: int
+    + eventi: List<Evento>
+    + __init__(id: int)
+    + aggiungi_evento(evento: Evento): void
+    + filtra_eventi(tipo: String): List<Evento>
+    + esporta_log(): String
+    + elimina_evento(id: int): Boolean
+    + get_eventi_per_data(data: DateTime): List<Evento>
+  }
+}
+
+Utente <|-- Amministratore : <<extend>>
+Automazione "1" o-- "1..*" Regola : contiene >
+LogEventi "1" o-- "0..*" Evento : registra >
+Amministratore "1" --> "0..*" Automazione : gestisce >
+
+@enduml

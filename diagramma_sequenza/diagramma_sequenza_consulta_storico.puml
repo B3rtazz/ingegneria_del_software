@@ -1,0 +1,31 @@
+@startuml
+title Sequenza OOP - Consultazione storico eventi (solo Amministratore)
+
+actor Amministratore
+
+box "Interfaccia"
+participant "VistaLog" as VistaLog
+end box
+
+box "Logica applicativa"
+participant "ControlloreLog" as ControlloreLog
+participant "ServizioLog" as ServizioLog
+database "RepositoryEventi" as RepositoryEventi
+end box
+
+Amministratore -> VistaLog : cercaEventi(filtro)
+VistaLog -> ControlloreLog : elencaEventi(filtro)
+ControlloreLog -> ServizioLog : elencaEventi(filtro)
+ServizioLog -> RepositoryEventi : cerca(filtro)
+RepositoryEventi --> ServizioLog : eventi
+ServizioLog --> ControlloreLog : eventi
+ControlloreLog --> VistaLog : mostraEventi(eventi)
+
+opt esportazione
+  Amministratore -> VistaLog : esportaEventi(filtro)
+  VistaLog -> ControlloreLog : esportaEventi(filtro)
+  ControlloreLog -> ServizioLog : esportaEventi(filtro)
+  ServizioLog --> ControlloreLog : fileEsportato
+  ControlloreLog --> VistaLog : mostraRisultatoEsportazione(fileEsportato)
+end
+@enduml

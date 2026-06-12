@@ -1,0 +1,52 @@
+@startuml
+title Diagramma Classi - Dominio Casa Intelligente
+
+class Utente {
+  +id: int
+  +email: String
+  +password: String
+  +autentica(password: String): bool
+}
+
+class Amministratore {
+  +livelloAccesso: int
+}
+
+class Stanza {
+  +id: int
+  +nome: String
+  +piano: int
+}
+
+class Dispositivo {
+  +id: int
+  +nome: String
+  +tipo: String
+  +stato: String
+  +online: bool
+  +idStanza: int
+  +applicaComando(comando: String): bool
+}
+
+class RegolaAutomazione {
+  +id: int
+  +nome: String
+  +condizione: String
+  +azione: String
+  +attiva: bool
+  +orarioEsecuzione: Time
+}
+
+class Evento {
+  +id: int
+  +dataOra: DateTime
+  +tipoEvento: String
+  +messaggio: String
+  +idDispositivo: int
+}
+
+Utente <|-- Amministratore
+Stanza "1" -- "*" Dispositivo
+RegolaAutomazione ..> Dispositivo : controlla
+Evento "*" --> "0..1" Dispositivo
+@enduml

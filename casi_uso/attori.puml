@@ -1,0 +1,12 @@
+@startuml
+left to right direction
+
+rectangle "Attori del Sistema Smart Home" {
+  actor "Utente" as U
+  actor "Amministratore" as A
+  actor "Tempo" as T
+
+  U <|-- A
+}
+
+@enduml

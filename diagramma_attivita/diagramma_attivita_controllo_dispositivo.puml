@@ -1,0 +1,18 @@
+@startuml
+  title Diagramma Attivita - Controllo dispositivo (Utente o Amministratore)
+
+  start
+    :Selezionare dispositivo;
+    :Selezionare comando;
+    :Inviare comando al sistema;
+  if (Dispositivo raggiungibile?) then (Si)
+    :Eseguire comando;
+    :Aggiornare stato dispositivo;
+    :Registrare evento;
+    :Mostrare conferma;
+  else (No)
+    :Mostrare errore dispositivo offline;
+    :Registrare errore;
+  endif
+  stop
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+  title Diagramma Attivita - Gestione stanze (Utente o Amministratore)
+
+  start
+  :Aprire gestione stanze;
+  if (Operazione?) then (Nuova stanza)
+    :Inserire dati stanza;
+    :Salvare stanza;
+  elseif (Modifica stanza)
+    :Selezionare stanza;
+    :Aggiornare dati;
+    :Salvare modifiche;
+  else (Rimozione stanza)
+    :Selezionare stanza;
+    :Confermare rimozione;
+    :Eliminare stanza;
+  endif
+  :Aggiornare elenco stanze;
+  stop
+
+@enduml

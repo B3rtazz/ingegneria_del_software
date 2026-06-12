@@ -1,0 +1,34 @@
+@startuml
+title Sequenza OOP - Controllo dispositivo (Utente o Amministratore)
+
+actor Utente
+actor Amministratore
+
+box "Interfaccia"
+participant "VistaDispositivi" as VistaDispositivi
+end box
+
+box "Logica applicativa"
+participant "ControlloreDispositivi" as ControlloreDispositivi
+participant "ServizioDispositivi" as ServizioDispositivi
+participant "Dispositivo" as Dispositivo
+participant "ServizioLog" as ServizioLog
+end box
+
+Utente -> VistaDispositivi : inviaComando(idDispositivo, comando)
+Amministratore -> VistaDispositivi : inviaComando(idDispositivo, comando)
+VistaDispositivi -> ControlloreDispositivi : inviaComando(idDispositivo, comando)
+ControlloreDispositivi -> ServizioDispositivi : inviaComando(idDispositivo, comando)
+ServizioDispositivi -> Dispositivo : applicaComando(comando)
+Dispositivo --> ServizioDispositivi : dispositivoAggiornato
+
+alt esito positivo
+  ServizioDispositivi -> ServizioLog : registraEvento("COMANDO_ESEGUITO", messaggio)
+  ServizioDispositivi --> ControlloreDispositivi : dispositivoAggiornato
+  ControlloreDispositivi --> VistaDispositivi : mostraRisultatoComando(stato)
+else esito negativo
+  ServizioDispositivi -> ServizioLog : registraEvento("COMANDO_FALLITO", messaggio)
+  ServizioDispositivi --> ControlloreDispositivi : erroreOperazione
+  ControlloreDispositivi --> VistaDispositivi : mostraRisultatoComando(errore)
+end
+@enduml

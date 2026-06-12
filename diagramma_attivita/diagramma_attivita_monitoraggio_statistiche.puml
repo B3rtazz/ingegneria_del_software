@@ -1,0 +1,16 @@
+@startuml
+  title Diagramma Attivita - Monitoraggio e statistiche (Utente o Amministratore)
+
+  start
+    :Avviare monitoraggio dispositivi;
+    :Verificare stato dispositivi;
+  if (Anomalie presenti?) then (Si)
+    :Generare notifica;
+    :Registrare anomalia;
+  else (No)
+  endif
+    :Calcolare statistiche utilizzo;
+    :Mostrare report;
+  stop
+
+@enduml

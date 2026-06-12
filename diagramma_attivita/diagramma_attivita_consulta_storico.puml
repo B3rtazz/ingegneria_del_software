@@ -1,0 +1,15 @@
+@startuml
+  title Diagramma Attivita - Consultazione storico eventi (solo Amministratore)
+
+  start
+    :Aprire storico eventi;
+    :Impostare filtri;
+    :Ricercare eventi;
+    :Mostrare risultati;
+  if (Richiesta esportazione?) then (Si)
+    :Generare file log;
+    :Scaricare file;
+  else (No)
+  endif
+  stop
+@enduml

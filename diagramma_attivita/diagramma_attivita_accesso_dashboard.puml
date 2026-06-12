@@ -1,0 +1,14 @@
+@startuml
+  title Diagramma Attivita - Accesso dashboard (Utente o Amministratore)
+  
+  start
+    :Inserire credenziali;
+    :Inviare richiesta di login;
+  if (Credenziali valide?) then (Si)
+    :Caricare dati dashboard;
+    :Mostrare dashboard;
+  else (No)
+    :Mostrare errore;
+  endif
+  stop
+@enduml

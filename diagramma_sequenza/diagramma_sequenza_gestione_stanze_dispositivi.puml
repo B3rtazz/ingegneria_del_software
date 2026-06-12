@@ -1,0 +1,39 @@
+@startuml
+title Sequenza OOP - Gestione stanze e dispositivi (CRUD essenziale)
+
+actor Utente
+actor Amministratore
+
+box "Interfaccia"
+participant "VistaStanze" as VistaStanze
+participant "VistaDispositivi" as VistaDispositivi
+end box
+
+box "Logica applicativa"
+participant "ControlloreStanze" as ControlloreStanze
+participant "ControlloreDispositivi" as ControlloreDispositivi
+participant "ServizioStanze" as ServizioStanze
+participant "ServizioDispositivi" as ServizioDispositivi
+database "RepositoryStanze" as RepositoryStanze
+database "RepositoryDispositivi" as RepositoryDispositivi
+end box
+
+== Crea stanza ==
+Utente -> VistaStanze : creaStanza(nome)
+VistaStanze -> ControlloreStanze : creaStanza(nome)
+ControlloreStanze -> ServizioStanze : creaStanza(nome)
+ServizioStanze -> RepositoryStanze : salva(stanza)
+RepositoryStanze --> ServizioStanze : stanzaSalvata
+ServizioStanze --> ControlloreStanze : stanzaCreata
+ControlloreStanze --> VistaStanze : mostraRisultatoStanza(stanzaCreata)
+
+== Crea dispositivo ==
+Utente -> VistaDispositivi : creaDispositivo(nome, tipo, idStanza)
+VistaDispositivi -> ControlloreDispositivi : creaDispositivo(nome, tipo, idStanza)
+ControlloreDispositivi -> ServizioDispositivi : creaDispositivo(nome, tipo, idStanza)
+ServizioDispositivi -> RepositoryDispositivi : salva(dispositivo)
+RepositoryDispositivi --> ServizioDispositivi : dispositivoSalvato
+ServizioDispositivi --> ControlloreDispositivi : dispositivoCreato
+ControlloreDispositivi --> VistaDispositivi : mostraRisultatoComando(dispositivoCreato)
+
+@enduml

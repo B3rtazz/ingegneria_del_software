@@ -1,0 +1,14 @@
+@startuml
+  title Diagramma Attivita - Esecuzione automazione (Sistema)
+
+  start
+    :Attendere trigger (orario/condizione);
+    :Valutare regole attive;
+  if (Condizione soddisfatta?) then (Si)
+    :Eseguire azione sul dispositivo;
+    :Registrare evento esecuzione;
+  else (No)
+    :Nessuna azione;
+  endif
+  stop
+@enduml

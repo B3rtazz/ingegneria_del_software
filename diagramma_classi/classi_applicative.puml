@@ -1,0 +1,147 @@
+@startuml
+title Diagramma Classi Applicative - Versione Semplificata
+
+' ==================== VISTE ====================
+class VistaLogin {
+  +inserisciCredenziali(email: String, password: String)
+  +mostraErroreLogin()
+}
+
+class VistaStanze {
+  +creaStanza(nome: String, piano: int)
+  +aggiornaStanza(stanza: Stanza)
+  +eliminaStanza(idStanza: int)
+  +elencaStanze()
+  +mostraRisultatoStanza(stanza: Stanza)
+}
+
+class VistaDispositivi {
+  +creaDispositivo(nome: String, tipo: String, idStanza: int)
+  +aggiornaDispositivo(dispositivo: Dispositivo)
+  +eliminaDispositivo(idDispositivo: int)
+  +elencaDispositivi()
+  +inviaComando(idDispositivo: int, comando: String)
+  +mostraRisultatoComando(risultato: String)
+}
+
+class VistaAutomazioni {
+  +creaRegola(regola: RegolaAutomazione)
+  +aggiornaRegola(regola: RegolaAutomazione)
+  +eliminaRegola(idRegola: int)
+  +elencaRegole()
+  +mostraRisultatoOperazione()
+}
+
+class VistaLog {
+  +cercaEventi(filtro: String)
+  +mostraEventi(eventi: List<Evento>)
+  +mostraRisultatoEsportazione(percorsoFile: String)
+}
+
+class VistaSistema {
+  +mostraDashboard(dati: String)
+  +mostraMonitoraggio(dispositivi: List<Dispositivo>)
+  +mostraStatistiche(eventi: List<Evento>)
+  +avviaBackup()
+}
+
+' ==================== CONTROLLORI ====================
+class ControlloreAutenticazione {
+  +effettuaLogin(email: String, password: String): Utente
+}
+
+class ControlloreStanze {
+  +creaStanza(nome: String, piano: int): Stanza
+  +aggiornaStanza(stanza: Stanza): Stanza
+  +eliminaStanza(idStanza: int): bool
+  +elencaStanze(): List<Stanza>
+}
+
+class ControlloreDispositivi {
+  +creaDispositivo(nome: String, tipo: String, idStanza: int): Dispositivo
+  +aggiornaDispositivo(dispositivo: Dispositivo): Dispositivo
+  +eliminaDispositivo(idDispositivo: int): bool
+  +elencaDispositivi(): List<Dispositivo>
+  +inviaComando(idDispositivo: int, comando: String): Dispositivo
+}
+
+class ControlloreAutomazioni {
+  +creaRegola(regola: RegolaAutomazione): RegolaAutomazione
+  +aggiornaRegola(regola: RegolaAutomazione): RegolaAutomazione
+  +eliminaRegola(idRegola: int): bool
+  +elencaRegole(): List<RegolaAutomazione>
+}
+
+class ControlloreLog {
+  +elencaEventi(filtro: String): List<Evento>
+  +esportaEventi(filtro: String): String
+}
+
+class ControlloreSistema {
+  +apriDashboard(idUtente: int)
+  +monitoraDispositivi(): List<Dispositivo>
+  +generaStatistiche(filtro: String): List<Evento>
+  +avviaBackup()
+}
+
+' ==================== SERVIZI ====================
+class ServizioUtenti {
+  +autentica(email: String, password: String): Utente
+}
+
+class ServizioStanze {
+  +crea(stanza: Stanza): Stanza
+  +aggiorna(stanza: Stanza): Stanza
+  +elimina(idStanza: int): bool
+  +elenca(): List<Stanza>
+}
+
+class ServizioDispositivi {
+  +crea(dispositivo: Dispositivo): Dispositivo
+  +aggiorna(dispositivo: Dispositivo): Dispositivo
+  +elimina(idDispositivo: int): bool
+  +elenca(): List<Dispositivo>
+  +inviaComando(idDispositivo: int, comando: String): Dispositivo
+}
+
+class ServizioAutomazioni {
+  +crea(regola: RegolaAutomazione): RegolaAutomazione
+  +aggiorna(regola: RegolaAutomazione): RegolaAutomazione
+  +elimina(idRegola: int): bool
+  +elenca(): List<RegolaAutomazione>
+}
+
+class ServizioLog {
+  +elencaEventi(filtro: String): List<Evento>
+  +esportaEventi(filtro: String): String
+  +registraEvento(tipo: String, messaggio: String)
+}
+
+class ServizioSistema {
+  +caricaRiepilogo(idUtente: int): String
+  +monitoraDispositivi(): List<Dispositivo>
+  +generaStatistiche(filtro: String): List<Evento>
+  +eseguiBackup(): String
+}
+
+' ==================== RELAZIONI ====================
+VistaLogin --> ControlloreAutenticazione
+VistaStanze --> ControlloreStanze
+VistaDispositivi --> ControlloreDispositivi
+VistaAutomazioni --> ControlloreAutomazioni
+VistaLog --> ControlloreLog
+VistaSistema --> ControlloreSistema
+
+ControlloreAutenticazione --> ServizioUtenti
+ControlloreStanze --> ServizioStanze
+ControlloreDispositivi --> ServizioDispositivi
+ControlloreAutomazioni --> ServizioAutomazioni
+ControlloreLog --> ServizioLog
+ControlloreSistema --> ServizioSistema
+
+ServizioDispositivi --> ServizioLog
+ServizioAutomazioni --> ServizioDispositivi
+ServizioSistema --> ServizioDispositivi
+ServizioSistema --> ServizioLog
+ServizioSistema --> ServizioStanze
+@enduml

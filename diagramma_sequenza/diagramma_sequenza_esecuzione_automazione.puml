@@ -1,0 +1,25 @@
+@startuml
+title Sequenza OOP - Esecuzione automazione
+
+actor Tempo
+
+box "Interfaccia"
+participant "Sistema" as Sistema
+end box
+
+box "Logica applicativa"
+participant "ServizioAutomazioni" as ServizioAutomazioni
+participant "ServizioDispositivi" as ServizioDispositivi
+participant "ServizioLog" as ServizioLog
+end box
+
+Tempo -> Sistema : triggerAutomazioni()
+Sistema -> ServizioAutomazioni : elenca()
+ServizioAutomazioni --> Sistema : automazioniAttive
+
+loop per ogni automazione
+  Sistema -> ServizioDispositivi : inviaComando(idDispositivo, comando)
+  ServizioDispositivi --> Sistema : dispositivoAggiornato
+  Sistema -> ServizioLog : registraEvento("AUTOMAZIONE_ESEGUITA", messaggio)
+end
+@enduml

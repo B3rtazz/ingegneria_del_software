@@ -1,0 +1,86 @@
+@startuml
+title Package di Analisi: Servizi - Smart Home System
+
+skinparam linetype ortho
+skinparam backgroundColor #FEFEF8
+skinparam defaultFontSize 11
+
+package "Gestione Servizi" as PktServizio <<Service>> {
+  class Stanza {
+    + id: int
+    + nome: String
+    + piano: int
+    + dispositivi: List<Dispositivo>
+    + __init__(id: int, nome: String, piano: int)
+    + aggiungi_dispositivo(dispositivo: Dispositivo): void
+    + rimuovi_dispositivo(id_dispositivo: int): Boolean
+    + elenca_dispositivi(): List<Dispositivo>
+    + get_dispositivi_per_tipo(tipo: String): List<Dispositivo>
+    + get_nome(): String
+    + get_piano(): int
+  }
+
+  class Dispositivo {
+    + id: int
+    + nome: String
+    + stato: String
+    + online: Boolean
+    + tipo: String
+    + id_stanza: int
+    + __init__(id: int, nome: String, tipo: String, id_stanza: int)
+    + accendi(): void
+    + spegni(): void
+    + cambia_stato(nuovo_stato: String): Boolean
+    + invia_comando(comando: String): Boolean
+    + is_online(): Boolean
+    + get_stato(): String
+    + get_tipo(): String
+  }
+
+  class AssegnazioneDispositivo {
+    + id: int
+    + id_dispositivo: int
+    + id_stanza: int
+    + data_inizio: DateTime
+    + data_fine: DateTime
+    + __init__(id: int, id_disp: int, id_stanza: int, data_inizio: DateTime)
+    + termina_assegnazione(): void
+    + get_durata(): int
+    + is_attiva(): Boolean
+    + get_data_inizio(): DateTime
+    + get_data_fine(): DateTime
+  }
+
+  class ServizioStanze {
+    + crea_stanza(nome: String, piano: int): Stanza
+    + elenca_stanze(): List<Stanza>
+    + elenca_stanze_per_piano(piano: int): List<Stanza>
+    + elimina_stanza(id: int): Boolean
+    + assegna_dispositivo(id_disp: int, id_stanza: int): void
+    + get_stanza_per_id(id: int): Stanza
+    + aggiorna_stanza(stanza: Stanza): Boolean
+  }
+
+  class ServizioDispositivi {
+    + elenca_dispositivi(): List<Dispositivo>
+    + trova_per_stanza(id_stanza: int): List<Dispositivo>
+    + invia_comando(id: int, comando: String): Boolean
+    + cambia_stato_dispositivo(id: int, nuovo_stato: String): Boolean
+    + registra_dispositivo(dispositivo: Dispositivo): Dispositivo
+    + elimina_dispositivo(id: int): Boolean
+    + get_dispositivo_per_id(id: int): Dispositivo
+    + elenca_dispositivi_online(): List<Dispositivo>
+  }
+}
+
+Stanza "1" o-- "0..*" Dispositivo : contiene >
+Stanza "1" -- "0..*" AssegnazioneDispositivo : registra >
+Dispositivo "1" -- "0..*" AssegnazioneDispositivo : soggetto di >
+
+ServizioStanze "1" --> "0..*" Stanza : gestisce >
+ServizioDispositivi "1" --> "0..*" Dispositivo : gestisce >
+
+ServizioStanze --> Dispositivo : assegna >
+ServizioDispositivi --> Stanza : opera su >
+
+@enduml

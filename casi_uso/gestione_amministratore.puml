@@ -1,0 +1,36 @@
+@startuml
+left to right direction
+
+actor "Amministratore" as A
+actor "Tempo" as T
+
+rectangle "Funzionalità Amministratore" {
+  usecase "Accesso e dashboard" as UC1
+  usecase "Gestione stanze (CRUD)" as UC2
+  usecase "Gestione dispositivi (CRUD)" as UC3
+  usecase "Controllo dispositivi" as UC4
+  usecase "Gestione automazioni (CRUD)" as UC5
+  usecase "Consultazione storico eventi" as UC6
+  usecase "Gestione backup" as UC7
+  usecase "Monitoraggio e statistiche" as UC8
+  usecase "Registrazione eventi di sistema" as UCE1
+}
+
+A --> UC1
+A --> UC2
+A --> UC3
+A --> UC4
+A --> UC5
+A --> UC6 
+A --> UC7
+A --> UC8
+
+T --> UC7
+T --> UC5
+
+UC4 ..> UCE1
+UC5 ..> UCE1
+UC7 ..> UCE1
+UC8 ..> UCE1
+
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+left to right direction
+
+actor "Utente" as U
+actor "Amministratore" as A
+
+rectangle "Gestione Sistema e Monitoraggio" {
+  usecase "Gestione backup" as UC7
+  usecase "Monitoraggio e statistiche" as UC8
+  usecase "Registrazione eventi di sistema" as UCE1
+}
+
+U --> UC8
+
+A --> UC7
+A --> UC8
+
+UC7 ..> UCE1 : <<include>>
+UC8 ..> UCE1 : <<include>>
+
+@enduml

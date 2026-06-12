@@ -1,0 +1,13 @@
+@startuml
+  title Diagramma Attivita - Backup automatico (Sistema / Amministratore)
+  
+  start
+    :Avvio schedulato backup;
+    :Raccogliere dati sistema;
+  if (Salvataggio riuscito?) then (Si)
+    :Registrare backup completato;
+  else (No)
+    :Registrare errore backup;
+  endif
+  stop
+@enduml
