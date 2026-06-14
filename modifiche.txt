@@ -10,7 +10,7 @@ analisi_requisiti/
 Nessuna modifica necessaria.
 
 --------------------------------------------------------------------------------
-casi_uso/
+casi_uso/ LUCA
 --------------------------------------------------------------------------------
 
 1. gestione_utilizzatore.puml
@@ -33,7 +33,7 @@ casi_uso/
    - Nessuna modifica necessaria.
 
 --------------------------------------------------------------------------------
-diagramma_classi/
+diagramma_classi/ LAPO
 --------------------------------------------------------------------------------
 
 5. classi_dominio.puml
@@ -59,7 +59,7 @@ diagramma_classi/
        +aggiorna(utente: Utente)
 
 --------------------------------------------------------------------------------
-diagramma_sequenza/
+diagramma_sequenza/ LUCA
 --------------------------------------------------------------------------------
 
 8. diagramma_sequenza_accesso_dashboard.puml
@@ -99,7 +99,7 @@ diagramma_attivita/
 Nessuna modifica necessaria in questa cartella.
 
 --------------------------------------------------------------------------------
-package_di_analisi/
+package_di_analisi/ LAPO
 --------------------------------------------------------------------------------
 
 16. package_analisi_reale.puml
